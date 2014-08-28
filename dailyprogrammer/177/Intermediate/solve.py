@@ -20,7 +20,7 @@ def beep(f, sec, freq):
 f = wave.open("out.wav", "w")
 f.setparams((1, 2, 8000, 0, 'NONE', 'not compressed'))
 
-for c in "".join([morse[-1 if l == " " else ord(l) - ord('a')] for l in sys.argv[1].lower()]):
+for c in "".join([morse[26 + ord(l) - ord('0') if (l >= '0' and l <= '9') else ord(l) - ord('a') if (l >= 'a' and l <= 'z') else -1] for l in sys.argv[1].lower()]):
     if c != "/":
         beep(f, [0.6, 0.2][c == '.'], 1000)
     beep(f, 0.2, 0)
