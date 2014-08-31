@@ -1,16 +1,11 @@
 import random
 
-def _swap(array, a, b):
-    buf = array[a]
-    array[a] = array[b]
-    array[b] = buf
-
 def bubble(l):
     ret = l[:]
     for i in range(len(l) - 1):
         for j in range(len(l) - i - 1):
             if ret[j] > ret[j + 1]:
-                _swap(ret, j, j + 1)
+                ret[j], ret[j + 1] = ret[j + 1], ret[j]
     return (ret)
 
 def insert(l):
@@ -44,7 +39,7 @@ def quick(l):
                 a += 1
             while l[b] > pivot:
                 b -= 1
-            _swap(l, a, b)
+            l[a], l[b] = l[b], l[a]
         _qsub(l, idx, a - idx)
         _qsub(l, a + 1, idx + sz - a - 1)
         return l
