@@ -2,15 +2,10 @@ from PIL import Image
 import sys
 import re
 
-sz = 512
-img = Image.new("RGB", (sz, sz))
+def fill(x, y, sz, s):
+    [fill(x + sz * (not(i % 3)), y + sz * (i > 1), sz >> 1, s + str(i + 1)) for i in range(4) * bool(sz)]
+    img.putpixel((x, y), tuple([bool(re.match(sys.argv[1], s)) * 255] * 3))
 
-def testPixels(x, y, sz, s):
-    sz >>= 1
-    [testPixels(x + sz * (not(i % 3)), y + sz * (i > 1), sz, s + str(i + 1)) for i in range(4) * bool(sz)]
-    r = bool(re.match(sys.argv[1], s))
-    img.putpixel((x, y), (r * 255, r * 255, r * 255))
-
-testPixels(0, 0, sz, "")
-
+img = Image.new("RGB", (512, 512))
+fill(0, 0, img.size[0] >> 1, "")
 img.save("out.png")
