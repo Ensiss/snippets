@@ -6,13 +6,10 @@ sz = 512
 img = Image.new("RGB", (sz, sz))
 
 def testPixels(x, y, sz, s):
-    if sz == 1:
-        if re.match(sys.argv[1], s):
-            img.putpixel((x, y), (255, 255, 255))
-        return
-    nsz = sz >> 1
-    for i in range(4):
-        testPixels(x + nsz * (not(i % 3)), y + nsz * (i > 1), nsz, s + str(i + 1))
+    sz >>= 1
+    [testPixels(x + sz * (not(i % 3)), y + sz * (i > 1), sz, s + str(i + 1)) for i in range(4) * bool(sz)]
+    r = bool(re.match(sys.argv[1], s))
+    img.putpixel((x, y), (r * 255, r * 255, r * 255))
 
 testPixels(0, 0, sz, "")
 
