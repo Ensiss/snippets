@@ -2,7 +2,7 @@ from PIL import Image
 import sys
 import re
 
-sz = 400
+sz = 512
 img = Image.new("RGB", (sz, sz))
 
 def testPixels(x, y, sz, s):
