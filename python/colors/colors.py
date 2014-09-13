@@ -66,8 +66,6 @@ while True:
     clusters = initClusters(k)
     assignPts(k, px, means, clusters, img.size)
     updateMeans(k, px, means, clusters)
-    print means
-    print len(clusters[0]), len(clusters[1]), len(clusters[2])
     stable = True
     for i in range(k):
         if old[i] != means[i]:
