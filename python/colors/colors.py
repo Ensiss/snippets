@@ -72,7 +72,9 @@ while True:
     for i in range(k):
         if old[i] != means[i]:
             stable = False
-            break
+        if len(clusters[i]) == 0:
+            means[i] = initMeans(1)[0]
+            stable = False
     if stable:
         break
 
