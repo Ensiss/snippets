@@ -76,10 +76,11 @@ while True:
     if stable:
         break
 
+
+indexes = sorted(range(len(clusters)), key=lambda c: len(clusters[c]), reverse=True)
 ssz = out.size[0] / k
-for i in range(k):
-    if clusters[i]:
-        draw.rectangle((i * ssz, 0, (i + 1) * ssz, out.size[1]), fill=means[i])
+for i in indexes:
+    draw.rectangle((i * ssz, 0, (i + 1) * ssz, out.size[1]), fill=means[indexes[i]])
 
 img.show()
 out.show()
