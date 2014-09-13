@@ -4,7 +4,7 @@ import colorsys
 import sys
 
 if len(sys.argv) < 2:
-    print "Usage: python colors.py <path_to_wallpaper>"
+    print "Usage: python colors.py <path_to_wallpaper> [nb_of_means]"
     exit()
 
 def dist(a, b):
@@ -51,13 +51,13 @@ def updateMeans(k, px, means, clusters):
         sz = len(clusters[i])
         means[i] = (avg[0] / sz, avg[1] / sz, avg[2] / sz)
 
-out = Image.new("RGB", (99, 33))
+k = 3 if len(sys.argv) < 3 else int(sys.argv[2])
+out = Image.new("RGB", (33 * k, 33))
 draw = ImageDraw.Draw(out)
 img = Image.open(sys.argv[1])
 img = img.resize((200, 200), Image.ANTIALIAS)
 px = img.load()
 
-k = 3
 means = initMeans(k)
 while True:
     old = []
@@ -76,9 +76,10 @@ while True:
     if stable:
         break
 
+ssz = out.size[0] / k
 for i in range(k):
     if clusters[i]:
-        draw.rectangle((i * 33, 0, i * 33 + 33, 33), fill=means[i])
+        draw.rectangle((i * ssz, 0, (i + 1) * ssz, out.size[1]), fill=means[i])
 
 img.show()
 out.show()
