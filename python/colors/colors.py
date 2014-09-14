@@ -52,7 +52,7 @@ def updateMeans(k, px, means, clusters):
         means[i] = (avg[0] / sz, avg[1] / sz, avg[2] / sz)
 
 k = 3 if len(sys.argv) < 3 else int(sys.argv[2])
-out = Image.new("RGB", (33 * k, 33))
+out = Image.new("RGB", (100 * k, 100))
 draw = ImageDraw.Draw(out)
 img = Image.open(sys.argv[1])
 img = img.resize((200, 200), Image.ANTIALIAS)
@@ -78,9 +78,11 @@ while True:
 
 
 indexes = sorted(range(len(clusters)), key=lambda c: len(clusters[c]), reverse=True)
-ssz = out.size[0] / k
+x = 0
 for i in indexes:
-    draw.rectangle((i * ssz, 0, (i + 1) * ssz, out.size[1]), fill=means[indexes[i]])
+    width = len(clusters[i]) * out.size[0] / (img.size[0] * img.size[1])
+    draw.rectangle((x, 0, x + width, out.size[1]), fill=means[i])
+    x += width
 
 img.show()
 out.show()
