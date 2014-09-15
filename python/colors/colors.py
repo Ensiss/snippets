@@ -1,6 +1,5 @@
 from random import random
 from PIL import Image, ImageDraw
-import colorsys
 import sys
 
 if len(sys.argv) < 2:
@@ -8,24 +7,10 @@ if len(sys.argv) < 2:
     exit()
 
 def dist(a, b):
-    r = 0
-    for i in range(3):
-        r += (a[i] - b[i]) ** 2
-    return r
+    return (sum([(a[i] - b[i]) ** 2 for i in range(3)]))
 
 def initMeans(k):
-    means = []
-    for i in range(k):
-        means.append((int(random() * 256),
-                      int(random() * 256),
-                      int(random() * 256)))
-    return means
-
-def initClusters(k):
-    clusters = []
-    for i in range(k):
-        clusters.append([])
-    return clusters
+    return [tuple([int(random() * 256) for x in range(3)]) for i in range(k)]
 
 def assignPts(k, px, means, clusters, sz):
     for y in range(sz[1]):
@@ -63,7 +48,7 @@ while True:
     old = []
     for i in range(k):
         old.append(means[i])
-    clusters = initClusters(k)
+    clusters = [[] for i in range(k)]
     assignPts(k, px, means, clusters, img.size)
     updateMeans(k, px, means, clusters)
     stable = True
