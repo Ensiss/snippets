@@ -7,11 +7,7 @@ if len(sys.argv) < 2:
     exit()
 
 def getPts(px, (w, h)):
-    a = {}
-    for y in range(h):
-        for x in range(w):
-            a[(x, y)] = 0
-    return a
+    return { (x, y): 0 for x in range(w) for y in range(h) }
 
 def dist(px, a, b):
     s = sum([(px[a][i] - px[b][i]) ** 2 for i in range(3)]) * colorCoef
