@@ -14,13 +14,15 @@ def dist(px, a, b):
     s += sum([(a[i] - b[i]) ** 2 for i in range(2)]) * distCoef
     return s
 
-def eNeighborhood((x, y), e):
+def eNeighborhood(pts, (x, y), e):
     n = []
     minx, miny = (max(0, x - e), max(0, y - e))
     maxx, maxy = (min(size[0], x + e), min(size[1], y + e))
     e = (e ** 2);
     for j in xrange(miny, maxy):
         for i in xrange(minx, maxx):
+            if (i, j) not in pts:
+                continue
             d = dist(px, (x, y), (i, j))
             if d < e:
                 n.append((i, j))
@@ -32,7 +34,7 @@ def getCluster(pts, curr, neighbors, e, clustersz):
         pt = neighbors.pop()
         if pt in pts:
             del pts[pt]
-            ptneighbors = eNeighborhood(pt, e)
+            ptneighbors = eNeighborhood(pts, pt, e)
             if ptneighbors >= clustersz:
                 neighbors += ptneighbors
             cluster.append(pt)
@@ -42,7 +44,7 @@ def dbscan(pts, e, clustersz):
     clusters = []
     while len(pts):
         key, value = pts.popitem()
-        n = eNeighborhood(key, e)
+        n = eNeighborhood(pts, key, e)
         if len(n) >= clustersz:
             clusters.append(getCluster(pts, key, n, e, clustersz))
     return clusters
