@@ -11,3 +11,6 @@ rec_fibo =: 1:`(([: $: 2-~])+[: $: 1-~])@.(1<])
 
 NB. fibo n = sum of the last two terms of fibo(n - 1)
 rec_fibo2 =: 1:`((2 (] , [: +/ [ {. [: |. ]) ])@:$:@<:)@.(1 < ])
+
+NB. golden ratio based on fibonacci sequence
+(+/%#)2%/\|. rec_fibo2 1000
