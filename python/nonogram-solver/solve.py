@@ -33,6 +33,8 @@ def get_line(lx, ly):
     return (l)
 
 def set_line(lx, ly, line):
+    if len(line) == 0:
+        return
     dx, dy = not lx, not ly
     x, y = lx + dx - 1, ly + dy - 1
     i = 0
@@ -64,6 +66,8 @@ def possibilities(lx, ly):
     nb = hztl[lx - 1] if lx else vtcl[ly - 1]
     res = []
     subsearch(line, [0] * len(line), 0, nb)
+    if len(res) == 0:
+        return []
     sums = [sum([res[i][j] for i in range(len(res))]) for j in range(len(res[0]))]
     return [0 if not i else 1 if i == len(res) else None for i in sums]
 
@@ -77,6 +81,7 @@ def play():
         c = count_none()
         if c == oldc:
             print "Error: I can't solve this grid"
+            exit()
         oldc = c
 
 if len(vtcl) != h or len(hztl) != w:
