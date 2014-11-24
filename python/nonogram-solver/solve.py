@@ -1,3 +1,5 @@
+import re
+
 w = 10
 h = 10
 tab = [[None for i in range(w)] for i in range(h)]
@@ -84,9 +86,25 @@ def play():
             exit()
         oldc = c
 
+def check_valid():
+    def check_line(x, y, l):
+        l = [len(i) for i in re.sub("\.+", " ", "".join([".#"[i] for i in l])).split()]
+        nb = hztl[x - 1] if x else vtcl[y - 1]
+        if l != nb:
+            print "Error: ",
+            print "horizontal #" + str(x) if x else "vertical #" + str(y),
+            print " seems to be wrong"
+            exit()
+
+    for x in range(1, w + 1):
+        check_line(x, 0, get_line(x, 0))
+    for y in range(1, h + 1):
+        check_line(0, y, get_line(0, y))
+
 if len(vtcl) != h or len(hztl) != w:
     print "The grid size and instructions don't match"
     exit()
 
 play()
+check_valid()
 print_tab()
