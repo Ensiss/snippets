@@ -1,4 +1,5 @@
 import re
+import sys
 
 w = 0
 h = 0
@@ -103,12 +104,12 @@ def check_valid():
     for y in range(1, h + 1):
         check_line(0, y, get_line(0, y))
 
-def load_grid():
+def load_grid(silent = False):
     global tab, w, h, vtcl, hztl
 
     def get_values(msg):
         while True:
-            print msg,
+            if not silent: print msg,
             try:
                 inp = [int(i) for i in raw_input().split(" ")]
             except:
@@ -126,10 +127,10 @@ def load_grid():
             continue
         w, h = inp
     tab = [[None for i in range(w)] for i in range(h)]
-    print "Enter vertical instructions (one row per line, values separated by spaces) :"
+    if not silent: print "Enter vertical instructions (one row per line, values separated by spaces) :"
     for i in range(h):
         vtcl.append(get_values("Row #" + str(i + 1) + ":"))
-    print "Enter horizontal instructions (one column per line, values separated by spaces) :"
+    if not silent: print "Enter horizontal instructions (one column per line, values separated by spaces) :"
     for i in range(w):
         hztl.append(get_values("Column #" + str(i + 1) + ":"))
     if len(vtcl) != h or len(hztl) != w:
@@ -137,7 +138,13 @@ def load_grid():
         print "The grid size and instructions don't match"
         exit()
 
-load_grid()
+if "-h" in sys.argv:
+    print "Usage: " + sys.argv[0] + " OPTIONS"
+    print "\t-h: display this help and exit"
+    print "\t-s: silent, don't prompt for user input (useful for scripts)"
+    exit()
+
+load_grid("-s" in sys.argv)
 play()
 check_valid()
 print_tab()
