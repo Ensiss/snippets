@@ -111,7 +111,14 @@ def load_grid(silent = False):
         while True:
             if not silent: print msg,
             try:
-                inp = [int(i) for i in raw_input().split(" ")]
+                raw = raw_input()
+                if raw == "exit":
+                    exit()
+            except:
+                print "Exiting..."
+                exit()
+            try:
+                inp = [int(i) for i in raw.split(" ")]
             except:
                 print "Wrong input format"
                 continue
