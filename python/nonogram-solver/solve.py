@@ -1,10 +1,10 @@
 import re
 
-w = 10
-h = 10
-tab = [[None for i in range(w)] for i in range(h)]
-vtcl = [[1, 4], [1, 1], [1, 1, 2], [6, 1], [3, 1, 3], [3, 1, 3], [2, 2], [6], [1, 1], [1, 1]]
-hztl = [[3], [4], [4], [3, 1], [1, 1, 1, 1], [4, 2], [1, 1, 1, 1], [1, 1, 2, 2], [1, 1, 4, 1], [1, 2, 1]]
+w = 0
+h = 0
+tab = None
+vtcl = []
+hztl = []
 
 def count_none():
     c = 0
@@ -101,10 +101,41 @@ def check_valid():
     for y in range(1, h + 1):
         check_line(0, y, get_line(0, y))
 
-if len(vtcl) != h or len(hztl) != w:
-    print "The grid size and instructions don't match"
-    exit()
+def load_grid():
+    global tab, w, h, vtcl, hztl
 
+    def get_values(msg):
+        while True:
+            print msg,
+            try:
+                inp = [int(i) for i in raw_input().split(" ")]
+            except:
+                print "Wrong input format"
+                continue
+            if len(inp) == 0:
+                print "Not enough arguments"
+                continue
+            return inp
+
+    while w == 0 or h == 0:
+        inp = get_values("Grid size (width height):")
+        if len(inp) != 2:
+            print "Wrong number of arguments"
+            continue
+        w, h = inp
+    tab = [[None for i in range(w)] for i in range(h)]
+    print "Enter vertical instructions (one row per line, values separated by spaces) :"
+    for i in range(h):
+        vtcl.append(get_values("Row #" + str(i + 1) + ":"))
+    print "Enter horizontal instructions (one column per line, values separated by spaces) :"
+    for i in range(w):
+        hztl.append(get_values("Column #" + str(i + 1) + ":"))
+    if len(vtcl) != h or len(hztl) != w:
+        # Should not happen
+        print "The grid size and instructions don't match"
+        exit()
+
+load_grid()
 play()
 check_valid()
 print_tab()
