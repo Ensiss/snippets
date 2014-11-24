@@ -89,6 +89,8 @@ def play():
 def check_valid():
     def check_line(x, y, l):
         l = [len(i) for i in re.sub("\.+", " ", "".join([".#"[i] for i in l])).split()]
+        if len(l) == 0:
+            l.append(0)
         nb = hztl[x - 1] if x else vtcl[y - 1]
         if l != nb:
             print "Error: ",
