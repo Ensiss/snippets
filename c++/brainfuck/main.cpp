@@ -1,5 +1,6 @@
 #include        <iostream>
 #include        <unistd.h>
+#include        <cstring>
 
 class           BrainFuck
 {
@@ -37,13 +38,18 @@ private:
 
 int             main(int ac, char **av)
 {
+  char          buff[4016];
+
   if (ac < 2)
     {
-      std::cerr << "Usage: " << av[0] << " <source>" << std::endl;
-      return (1);
+      int ret = read(0, buff, 4016);
+      if (ret && buff[ret - 1])
+        buff[ret - 1] = '\0';
     }
+  else
+    strcpy(buff, av[1]);
 
-  BrainFuck     bf(av[1]);
+  BrainFuck     bf(buff);
   bf.run();
   return (0);
 }
