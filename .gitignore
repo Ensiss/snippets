@@ -1,4 +1,7 @@
+# node
 node_modules
-img
 *.jpg
 *.png
+
+# C/C++
+*.o
