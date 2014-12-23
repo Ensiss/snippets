@@ -14,6 +14,49 @@ NN::Network::Network(const std::vector<uint8_t> nb)
     }
 }
 
+NN::Network::Network(const State &state)
+{
+  load(state);
+}
+
+void            NN::Network::save(State &state)
+{
+  state.layers.clear();
+  state.weights.clear();
+  for (Layer *layer: _layers)
+    layer->save(state);
+}
+
+NN::State       NN::Network::save()
+{
+  State         state;
+
+  save(state);
+  return (state);
+}
+
+void            NN::Network::load(const State &state)
+{
+  while (_layers.size())
+    {
+      delete _layers.back();
+      _layers.pop_back();
+    }
+
+  uint32_t      i = 0;
+  for (uint8_t nb: state.layers)
+    {
+      Layer     *layer = new Layer(nb);
+
+      if (_layers.size())
+        _layers.back()->linkTo(layer);
+      _layers.push_back(layer);
+      layer->load(state, i);
+    }
+}
+
+// void            NN::Network::import(const State &state);
+
 void            NN::Network::_updateOutput(const std::vector<double> &input)
 {
   _layers[0]->updateOutput(input);

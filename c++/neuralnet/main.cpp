@@ -7,6 +7,7 @@
 
 #include        <SFML/Graphics.hpp>
 #include        "Network.hh"
+#include        "State.hh"
 #include        "Utils.hh"
 
 void            testXOR()
@@ -20,9 +21,15 @@ void            testXOR()
       net.learn({0, 1}, {1});
       net.learn({1, 1}, {0});
     }
+  NN::Network           copy(net.save());
   for (double y = 0; y < 2; y++)
-    for (double x = 0; x < 2; x++)
-      std::cout << "(" << x << ", " << y << ") -> " << net.getOutput({x, y})[0] << std::endl;
+    {
+      for (double x = 0; x < 2; x++)
+        {
+          std::cout << "Original: (" << x << ", " << y << ") -> " << net.getOutput({x, y})[0] << std::endl;
+          std::cout << "Copy:     (" << x << ", " << y << ") -> " << net.getOutput({x, y})[0] << std::endl;
+        }
+    }
 }
 
 int             main(int ac, char **av)

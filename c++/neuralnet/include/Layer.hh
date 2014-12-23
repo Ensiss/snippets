@@ -2,6 +2,7 @@
 #define         __LAYER_HH__
 
 #include        "Neuron.hh"
+#include        "State.hh"
 
 namespace       NN
 {
@@ -12,9 +13,13 @@ namespace       NN
 
   public:
     void        linkTo(Layer *l);
-    uint8_t     getSize() const { return (_size); }
+    uint8_t     getSize() const { return (_neurons.size()); }
     Layer       *getPrev() { return (_prev); }
     Layer       *getNext() { return (_next); }
+
+  public:
+    void        save(State &state);
+    void        load(const State &state, uint32_t &i);
 
   public:
     std::vector<double> getOutput();
@@ -28,7 +33,6 @@ namespace       NN
   protected:
     Layer                       *_prev;
     Layer                       *_next;
-    uint8_t                     _size;
     std::vector<Neuron *>       _neurons;
   };
 }

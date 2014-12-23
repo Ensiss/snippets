@@ -1,9 +1,9 @@
 #include        "Layer.hh"
 
 NN::Layer::Layer(uint8_t size)
-  : _prev(NULL), _next(NULL), _size(size)
+  : _prev(NULL), _next(NULL)
 {
-  for (uint8_t i = 0; i < _size; i++)
+  for (uint8_t i = 0; i < size; i++)
     _neurons.push_back(new Neuron());
 }
 
@@ -16,6 +16,19 @@ void            NN::Layer::linkTo(Layer *l)
       for (Neuron *ln: l->_neurons)
         n->linkTo(ln);
     }
+}
+
+void            NN::Layer::save(State &state)
+{
+  state.layers.push_back(_neurons.size());
+  for (Neuron *neuron: _neurons)
+    neuron->save(state);
+}
+
+void            NN::Layer::load(const State &state, uint32_t &i)
+{
+  for (Neuron *n: _neurons)
+    n->load(state, i);
 }
 
 std::vector<double>     NN::Layer::getOutput()

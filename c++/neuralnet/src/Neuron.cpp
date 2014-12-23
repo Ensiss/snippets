@@ -5,6 +5,20 @@ NN::Neuron::Neuron()
 {
 }
 
+void            NN::Neuron::save(State &state)
+{
+  for (Link *link: _in)
+    state.weights.push_back(link->getWeight());
+  state.weights.push_back(_bias);
+}
+
+void            NN::Neuron::load(const State &state, uint32_t &i)
+{
+  for (Link *link: _in)
+    link->setWeight(state.weights[i++]);
+  _bias = state.weights[i++];
+}
+
 void            NN::Neuron::linkTo(Neuron *n)
 {
   Link          *ln = new Link(this, n);

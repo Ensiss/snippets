@@ -2,13 +2,20 @@
 #define         __NETWORK_HH__
 
 #include        "Layer.hh"
+#include        "State.hh"
 
 namespace       NN
 {
-  class           Network
+  class         Network
   {
   public:
     Network(const std::vector<uint8_t> nb);
+    Network(const State &state);
+
+  public:
+    void        save(State &state);
+    State       save();
+    void        load(const State &state);
 
   public:
     std::vector<double> getOutput(const std::vector<double> &input);

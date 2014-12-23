@@ -7,6 +7,7 @@
 #include        <vector>
 #include        <cmath>
 #include        "Utils.hh"
+#include        "State.hh"
 #include        "Link.hh"
 
 namespace       NN
@@ -15,6 +16,10 @@ namespace       NN
   {
   public:
     Neuron();
+
+  public:
+    void        save(State &state);
+    void        load(const State &state, uint32_t &i);
 
   public:
     void        linkTo(Neuron *n);
