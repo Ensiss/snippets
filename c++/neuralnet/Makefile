@@ -12,7 +12,7 @@ RM=	rm -f
 
 CXX=	g++
 
-CXXFLAGS=	-I include	\
+CXXFLAGS=	-O3 -I include	\
 		-Wall		\
 		-std=c++11 -g
 

@@ -5,6 +5,12 @@ NN::Neuron::Neuron()
 {
 }
 
+NN::Neuron::~Neuron()
+{
+  for (Link *l: _out)
+    delete l;
+}
+
 void            NN::Neuron::save(State &state)
 {
   for (Link *link: _in)

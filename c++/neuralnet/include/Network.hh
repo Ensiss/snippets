@@ -11,6 +11,7 @@ namespace       NN
   public:
     Network(const std::vector<uint8_t> nb);
     Network(const State &state);
+    ~Network();
 
   public:
     void        save(State &state);

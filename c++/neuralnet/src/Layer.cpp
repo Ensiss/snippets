@@ -7,6 +7,12 @@ NN::Layer::Layer(uint8_t size)
     _neurons.push_back(new Neuron());
 }
 
+NN::Layer::~Layer()
+{
+  for (Neuron *n: _neurons)
+    delete n;
+}
+
 void            NN::Layer::linkTo(Layer *l)
 {
   _next = l;

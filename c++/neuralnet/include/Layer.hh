@@ -10,6 +10,7 @@ namespace       NN
   {
   public:
     Layer(uint8_t size);
+    ~Layer();
 
   public:
     void        linkTo(Layer *l);

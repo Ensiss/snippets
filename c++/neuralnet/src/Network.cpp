@@ -19,6 +19,12 @@ NN::Network::Network(const State &state)
   load(state);
 }
 
+NN::Network::~Network()
+{
+  for (Layer *l: _layers)
+    delete l;
+}
+
 void            NN::Network::save(State &state)
 {
   state.layers.clear();

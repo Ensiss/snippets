@@ -16,6 +16,7 @@ namespace       NN
   {
   public:
     Neuron();
+    ~Neuron();
 
   public:
     void        save(State &state);
