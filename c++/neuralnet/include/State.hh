@@ -1,6 +1,8 @@
 #ifndef         __STATE_HH__
 #define         __STATE_HH__
 
+#include        <ostream>
+#include        <istream>
 #include        <vector>
 
 namespace       NN
@@ -11,5 +13,8 @@ namespace       NN
     std::vector<double>         weights;
   };
 };
+
+std::ostream    &operator<<(std::ostream &os, const NN::State &st);
+std::istream    &operator>>(std::istream &is, NN::State &st);
 
 #endif

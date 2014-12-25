@@ -4,6 +4,7 @@ SRC=	main.cpp		\
 	src/Neuron.cpp		\
 	src/Layer.cpp		\
 	src/Network.cpp		\
+	src/State.cpp		\
 	src/Utils.cpp
 
 OBJ=	$(SRC:.cpp=.o)
