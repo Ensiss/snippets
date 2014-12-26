@@ -27,19 +27,19 @@ void            testXOR()
       for (double x = 0; x < 2; x++)
         {
           std::cout << "Original: (" << x << ", " << y << ") -> " << net.getOutput({x, y})[0] << std::endl;
-          std::cout << "Copy:     (" << x << ", " << y << ") -> " << net.getOutput({x, y})[0] << std::endl;
+          std::cout << "Copy:     (" << x << ", " << y << ") -> " << copy.getOutput({x, y})[0] << std::endl;
         }
     }
 }
 
 int             main(int ac, char **av)
 {
+  Utils::init();
   if (ac < 2)
     {
       std::cerr << "Usage: " << av[0] << " <path_to_image>" << std::endl;
       return (1);
     }
-  Utils::init();
 
   NN::Network           net({2, 15, 3});
   int                   it = 0;

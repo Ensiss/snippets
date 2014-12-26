@@ -20,6 +20,8 @@ std::istream    &operator>>(std::istream &is, NN::State &st)
 {
   uint16_t      sz;
 
+  st.layers.clear();
+  st.weights.clear();
   is.read((char *) &sz, sizeof(sz));
   for (uint16_t i = 0; i < sz; i++)
     {
@@ -33,7 +35,7 @@ std::istream    &operator>>(std::istream &is, NN::State &st)
     {
       double    val;
       is.read((char *) &val, sizeof(val));
-      st.layers.push_back(val);
+      st.weights.push_back(val);
     }
   return (is);
 }
