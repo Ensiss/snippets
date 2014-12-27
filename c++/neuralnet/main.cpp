@@ -4,15 +4,16 @@
 #include        <cstdlib>
 #include        <string>
 #include        <ctime>
+#include        <map>
 
 #include        <SFML/Graphics.hpp>
 #include        "Network.hh"
 #include        "State.hh"
 #include        "Utils.hh"
 
-void            testXOR()
+int             xorMode(int, char **)
 {
-  NN::Network           net({2, 3, 1});
+  NN::Network   net({2, 3, 1});
 
   for (int i = 0; i < 10000; i++)
     {
@@ -21,39 +22,27 @@ void            testXOR()
       net.learn({0, 1}, {1});
       net.learn({1, 1}, {0});
     }
-  NN::Network           copy(net.save());
   for (double y = 0; y < 2; y++)
-    {
-      for (double x = 0; x < 2; x++)
-        {
-          std::cout << "Original: (" << x << ", " << y << ") -> " << net.getOutput({x, y})[0] << std::endl;
-          std::cout << "Copy:     (" << x << ", " << y << ") -> " << copy.getOutput({x, y})[0] << std::endl;
-        }
-    }
+    for (double x = 0; x < 2; x++)
+      std::cout << "Original: (" << x << ", " << y << ") -> " << net.getOutput({x, y})[0] << std::endl;
+  return (0);
 }
 
-int             main(int ac, char **av)
+int             imageMode(int ac, char **av)
 {
-  Utils::init();
-  if (ac < 2)
-    {
-      std::cerr << "Usage: " << av[0] << " <path_to_image>" << std::endl;
-      return (1);
-    }
-
-  NN::Network           net({2, 15, 3});
-  int                   it = 0;
-  sf::Image             orig, out;
-  if (!orig.loadFromFile(av[1]))
+  NN::Network   net({2, 15, 3});
+  int           it = 0;
+  sf::Image     orig, out;
+  if (!ac || !orig.loadFromFile(av[0]))
     return (1);
   out.create(orig.getSize().x, orig.getSize().y);
-  sf::Texture           textOrig, textOut;
+  sf::Texture   textOrig, textOut;
   if (!textOrig.loadFromImage(orig) || !textOut.loadFromImage(out))
     return (1);
-  sf::Sprite            spOrig(textOrig), spOut(textOut);
+  sf::Sprite    spOrig(textOrig), spOut(textOut);
   spOut.setPosition(orig.getSize().x, 0);
   sf::RenderWindow      window(sf::VideoMode(2 * orig.getSize().x, orig.getSize().y),
-                               "NN Test", sf::Style::Titlebar | sf::Style::Close);
+                               "Neural networ image mode", sf::Style::Titlebar | sf::Style::Close);
 
   while (window.isOpen())
     {
@@ -99,5 +88,26 @@ int             main(int ac, char **av)
         }
       textOut.update(out);
     }
+  return (0);
+}
+
+int             main(int ac, char **av)
+{
+  std::map<std::string, int (*)(int, char **)>     modes = {
+    {"xor", &xorMode},
+    {"image", &imageMode},
+  };
+
+  Utils::init();
+  if (ac < 2 )
+    {
+      std::cerr << "Usage: " << av[0] << " <mode> [args]" << std::endl;
+      std::cerr << "\txor\t\t: train a simple network on the xor problem" << std::endl;
+      std::cerr << "\timage <path>\t: learn and reproduce an image" << std::endl;
+      return (1);
+    }
+  std::map<std::string, int (*)(int, char **)>::iterator res;
+  if ((res = modes.find(av[1])) != modes.end())
+    (*res->second)(ac - 2, av + 2);
   return (0);
 }

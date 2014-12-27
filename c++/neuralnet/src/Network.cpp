@@ -61,8 +61,6 @@ void            NN::Network::load(const State &state)
     }
 }
 
-// void            NN::Network::import(const State &state);
-
 void            NN::Network::_updateOutput(const std::vector<double> &input)
 {
   _layers[0]->updateOutput(input);
