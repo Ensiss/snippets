@@ -1,6 +1,9 @@
 #!/usr/bin/env ijconsole
 
-NB. Clean version: (8 % ]) * [: +/ 1 > _2 +&*:/\ [: ? 0 $~ ]
+NB. Clean version:
+NB.     (8 % ]) * [: +/ 1 > _2 +&*:/\ [: ? 0 $~ ]
+NB. Alternate version:
+NB.     (+/ 4&*@% #) -. <. +/ "2 (2&, *:@?@$ 0:)
 
 pi=:(8%])*[:+/1>_2+&*:/\[:?0$~]
 echo pi 10000
